@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <title>weather-app</title>
+</head>
+
+<body>
+
+  <div class="card">
+    <div class="search">
+      <input type="text" placeholder="enter city name" spellcheck="false">
+      <button>
+        <i class='bx bx-search bx-md '></i>
+      </button>
+    </div>
+    <div class="weather">
+      <img src="rain.png" class="weather-icon">
+      <h1 class="temp">30°C</h1>
+      <h2 class="city">Nellore</h2>
+      <div class="details">
+        <div class="col">
+          <img src="humidity.png" alt="">
+          <div>
+            <p class="humidity">50%</p>
+            <p>humidity</p>
+          </div>
+        </div>
+        <div class="col">
+          <img src="wind.png" alt="">
+          <div>
+            <p class="wind">15 km/hr</p>
+            <p>wind speed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    const apikey = 'e9be677d45e2925a23edef4b768ffbb8';
+    const apiurl = 'https://api.openweathermap.org/data/2.5/weather?units=metric&q=';
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const searchbox = document.querySelector('.search input');
+      const searchbtn = document.querySelector('.search button');
+      const weathericon = document.querySelector('.weather-icon');
+
+      async function checkweather(city) {
+        const response = await fetch(apiurl + city + `&appid=${apikey}`);
+        const data = await response.json();
+        console.log(data);
+
+        document.querySelector(".city").innerHTML = data.name;
+        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + '°C';
+        document.querySelector(".humidity").innerHTML = data.main.humidity + '%';
+        document.querySelector(".wind").innerHTML = data.wind.speed + ' km/hr';
+
+        if (data.weather[0].main == 'Clouds') {
+          weathericon.src = "clouds.png";
+        } else if (data.weather[0].main == 'Clear') {
+          weathericon.src = "clear.png";
+        } else if (data.weather[0].main == 'Rain') {
+          weathericon.src = "rain.png";
+        } else if (data.weather[0].main == 'Drizzle') {
+          weathericon.src = "drizzle.png";
+        } else if (data.weather[0].main == 'Mist') {
+          weathericon.src = "mist.png";
+        }
+        document.querySelector(".wind").innerHTML = data.wind.speed + ' km/hr';
+      }
+      
+      searchbtn.addEventListener("click", () => {
+        checkweather(searchbox.value);
+      });
+        searchbox.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          checkweather(searchbox.value);
+        }
+        });
+    });
+
+
+      function fetchUserLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                fetchWeatherByCoordinates(latitude, longitude);
+              },
+              (error) => {
+                console.error('Error getting user location:', error);
+              }
+            );
+          } else {
+            console.error('Geolocation is not supported by this browser.');
+          }
+        }
+
+        // Fetch weather data using coordinates
+        async function fetchWeatherByCoordinates(latitude, longitude) {
+          const response = await fetch(`${apiurl}lat=${latitude}&lon=${longitude}&appid=${apikey}`);
+          const data = await response.json();
+          console.log(data);
+          checkweather(data.name);
+        }
+
+        // Fetch weather for user's current location on page load
+        fetchUserLocation();
+   
+
+
+  </script>
+
+</body>
+
+</html>
