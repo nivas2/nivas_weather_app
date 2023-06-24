@@ -22,7 +22,7 @@ body{
 }
 
 .search{
-    width: 100%;
+    width: 90%;
     
     align-items: center;
     justify-content: space-between;
@@ -34,11 +34,11 @@ body{
     outline: 0;
     background: #ebfffc;
     color: #555;
-    padding: 10px 25px;
+    padding: 10px 10px;
     height: 60px;
     border-radius: 30px;
     flex: 1;
-    margin-right: 16px;
+    margin-right: 10px;
     font-size:18px ;
 }
 
@@ -48,7 +48,7 @@ body{
         background: #ebfffc;
         color: #555;
         height: 60px;
-        width: 60px;
+        width: 60px;;
         border-radius: 50%;
         cursor: pointer;
         margin-right: 16px;     
@@ -99,3 +99,4 @@ body{
     margin-top: -6px;
 
 }
+
