@@ -19,21 +19,21 @@
       </button>
     </div>
     <div class="weather">
-      <img src="rain.png" class="weather-icon">
-      <h1 class="temp">30°C</h1>
-      <h2 class="city">Nellore</h2>
+      <img src="" class="weather-icon">
+      <h1 class="temp"></h1>
+      <h2 class="city"></h2>
       <div class="details">
         <div class="col">
           <img src="humidity.png" alt="">
           <div>
-            <p class="humidity">50%</p>
+            <p class="humidity"></p>
             <p>humidity</p>
           </div>
         </div>
         <div class="col">
           <img src="wind.png" alt="">
           <div>
-            <p class="wind">15 km/hr</p>
+            <p class="wind"></p>
             <p>wind speed</p>
           </div>
         </div>
@@ -74,47 +74,47 @@
         }
         document.querySelector(".wind").innerHTML = data.wind.speed + ' km/hr';
       }
-      
+
       searchbtn.addEventListener("click", () => {
         checkweather(searchbox.value);
       });
-        searchbox.addEventListener("keydown", (event) => {
+      searchbox.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
           event.preventDefault();
           checkweather(searchbox.value);
         }
-        });
+      });
     });
 
 
-      function fetchUserLocation() {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                fetchWeatherByCoordinates(latitude, longitude);
-              },
-              (error) => {
-                console.error('Error getting user location:', error);
-              }
-            );
-          } else {
-            console.error('Geolocation is not supported by this browser.');
+    function fetchUserLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            fetchWeatherByCoordinates(latitude, longitude);
+          },
+          (error) => {
+            console.error('Error getting user location:', error);
           }
-        }
+        );
+      } else {
+        console.error('Geolocation is not supported by this browser.');
+      }
+    }
 
-        // Fetch weather data using coordinates
-        async function fetchWeatherByCoordinates(latitude, longitude) {
-          const response = await fetch(`${apiurl}lat=${latitude}&lon=${longitude}&appid=${apikey}`);
-          const data = await response.json();
-          console.log(data);
-          checkweather(data.name);
-        }
+    // Fetch weather data using coordinates
+    async function fetchWeatherByCoordinates(latitude, longitude) {
+      const response = await fetch(`${apiurl}lat=${latitude}&lon=${longitude}&appid=${apikey}`);
+      const data = await response.json();
+      console.log(data);
+      checkweather(data.name);
+    }
 
-        // Fetch weather for user's current location on page load
-        fetchUserLocation();
-   
+    // Fetch weather for user's current location on page load
+    fetchUserLocation();
+
 
 
   </script>
