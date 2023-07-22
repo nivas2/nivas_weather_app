@@ -110,7 +110,7 @@
       }
     }
 
-    // Fetch weather data using coordinates
+   
     async function fetchWeatherByCoordinates(latitude, longitude) {
       const response = await fetch(`${apiurl}lat=${latitude}&lon=${longitude}&appid=${apikey}`);
       const data = await response.json();
@@ -118,7 +118,7 @@
       checkweather(data.name);
     }
 
-    // Fetch weather for user's current location on page load
+    
     fetchUserLocation();
 
 
