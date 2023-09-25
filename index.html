@@ -21,6 +21,7 @@
     <div class="weather">
       <img src="" class="weather-icon">
       <h1 class="temp">Hi There!!</h1>
+      
       <h2 class="city">Thank you for choosing Us:)</h2>
       <div class="details">
         <div class="col">
@@ -61,7 +62,7 @@
         const response = await fetch(apiurl + city + `&appid=${apikey}`);
         const data = await response.json();
         console.log(data);
-
+        
         document.querySelector(".city").innerHTML = data.name;
         document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + '°C';
         document.querySelector(".humidity").innerHTML = data.main.humidity + '%';
@@ -94,6 +95,7 @@
 
 
     function fetchUserLocation() {
+      
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -106,19 +108,21 @@
           }
         );
       } else {
+        
         console.error('Geolocation is not supported by this browser.');
       }
     }
 
-   
+    // Fetch weather data using coordinates
     async function fetchWeatherByCoordinates(latitude, longitude) {
       const response = await fetch(`${apiurl}lat=${latitude}&lon=${longitude}&appid=${apikey}`);
       const data = await response.json();
       console.log(data);
+      document.querySelector(".city").innerHTML = data.message;
       checkweather(data.name);
     }
 
-    
+    // Fetch weather for user's current location on page load
     fetchUserLocation();
 
 
