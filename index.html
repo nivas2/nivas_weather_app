@@ -1,134 +1,177 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeatherNow</title>
   <link rel="stylesheet" href="styles.css">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <title>weather-app</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+  <div class="app-container">
 
-  <div class="card">
-    <div class="search">
-      <input type="text" placeholder="enter city name" spellcheck="false">
-      <button>
-        <i class='bx bx-search bx-md '></i>
-      </button>
-    </div>
-    <div class="weather">
-      <img src="" class="weather-icon">
-      <h1 class="temp">Hi There!!</h1>
-      
-      <h2 class="city">Thank you for choosing Us:)</h2>
-      <div class="details">
-        <div class="col">
-          <img src="humidity.png" alt="">
-          <div>
-            <p class="humidity"></p>
-            <p>humidity</p>
-          </div>
-        </div>
-        <div class="col">
-          <img src="wind.png" alt="">
-          <div>
-            <p class="wind"></p>
-            <p>wind speed</p>
-          </div>
-        </div>
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <i class='bx bx-cloud bx-tada'></i>
+        <h1>WeatherNow</h1>
       </div>
+      <div class="header-actions">
+        <button class="unit-toggle" id="unitToggle" title="Toggle temperature unit">°C</button>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          <i class='bx bx-moon'></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Search -->
+    <div class="search-section">
+      <div class="search-bar">
+        <i class='bx bx-search'></i>
+        <input type="text" id="searchInput" placeholder="Search city..." spellcheck="false" autocomplete="off">
+        <button id="locationBtn" title="Use my location">
+          <i class='bx bx-current-location'></i>
+        </button>
+      </div>
+      <div class="recent-searches" id="recentSearches"></div>
     </div>
-    <div>
-      <br>
-      <p class="copy-right" style="color: #000; font-weight: 00;">©2023 Nivas Potta.</p>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Fetching weather data...</p>
     </div>
+
+    <!-- Error -->
+    <div class="error-message" id="errorMessage">
+      <i class='bx bx-error-circle'></i>
+      <p id="errorText">City not found. Please try again.</p>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome" id="welcome">
+      <i class='bx bx-cloud bx-lg'></i>
+      <h2>Welcome to WeatherNow</h2>
+      <p>Search for a city or allow location access to get started</p>
+    </div>
+
+    <!-- Weather Content -->
+    <div class="weather-content" id="weatherContent">
+
+      <!-- Current Weather -->
+      <section class="current-weather">
+        <div class="weather-main">
+          <img src="" alt="Weather" class="weather-icon" id="weatherIcon">
+          <div class="temp-display">
+            <h2 class="temperature" id="temperature"></h2>
+            <p class="description" id="description"></p>
+          </div>
+        </div>
+        <div class="location">
+          <i class='bx bx-map'></i>
+          <span id="cityName"></span>
+        </div>
+        <p class="date-time" id="dateTime"></p>
+      </section>
+
+      <!-- Details Grid -->
+      <section class="details-grid">
+        <div class="detail-card">
+          <i class='bx bx-thermometer'></i>
+          <div>
+            <p class="detail-value" id="feelsLike"></p>
+            <p class="detail-label">Feels Like</p>
+          </div>
+        </div>
+        <div class="detail-card">
+          <i class='bx bx-droplet'></i>
+          <div>
+            <p class="detail-value" id="humidity"></p>
+            <p class="detail-label">Humidity</p>
+          </div>
+        </div>
+        <div class="detail-card">
+          <i class='bx bx-wind'></i>
+          <div>
+            <p class="detail-value" id="wind"></p>
+            <p class="detail-label">Wind Speed</p>
+          </div>
+        </div>
+        <div class="detail-card">
+          <i class='bx bx-tachometer'></i>
+          <div>
+            <p class="detail-value" id="pressure"></p>
+            <p class="detail-label">Pressure</p>
+          </div>
+        </div>
+        <div class="detail-card">
+          <i class='bx bx-show'></i>
+          <div>
+            <p class="detail-value" id="visibility"></p>
+            <p class="detail-label">Visibility</p>
+          </div>
+        </div>
+        <div class="detail-card">
+          <i class='bx bx-water'></i>
+          <div>
+            <p class="detail-value" id="dewPoint"></p>
+            <p class="detail-label">Dew Point</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sunrise / Sunset -->
+      <section class="sun-section">
+        <div class="sun-card">
+          <i class='bx bx-sun'></i>
+          <div>
+            <p class="sun-time" id="sunrise"></p>
+            <p class="sun-label">Sunrise</p>
+          </div>
+        </div>
+        <div class="sun-track">
+          <div class="sun-arc">
+            <div class="sun-dot" id="sunDot"></div>
+          </div>
+        </div>
+        <div class="sun-card">
+          <i class='bx bx-moon'></i>
+          <div>
+            <p class="sun-time" id="sunset"></p>
+            <p class="sun-label">Sunset</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Air Quality -->
+      <section class="aqi-section" id="aqiSection">
+        <h3><i class='bx bx-leaf'></i> Air Quality Index</h3>
+        <div class="aqi-display">
+          <div class="aqi-badge" id="aqiBadge">
+            <span class="aqi-value" id="aqiValue"></span>
+          </div>
+          <div class="aqi-info">
+            <p class="aqi-level" id="aqiLevel"></p>
+            <p class="aqi-desc" id="aqiDesc"></p>
+          </div>
+        </div>
+        <div class="aqi-components" id="aqiComponents"></div>
+      </section>
+
+      <!-- 5-Day Forecast -->
+      <section class="forecast-section">
+        <h3><i class='bx bx-calendar'></i> 5-Day Forecast</h3>
+        <div class="forecast-cards" id="forecastCards"></div>
+      </section>
+
+    </div>
+
   </div>
 
-  
-
-
-  <script>
-    const apikey = 'e9be677d45e2925a23edef4b768ffbb8';
-    const apiurl = 'https://api.openweathermap.org/data/2.5/weather?units=metric&q=';
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const searchbox = document.querySelector('.search input');
-      const searchbtn = document.querySelector('.search button');
-      const weathericon = document.querySelector('.weather-icon');
-
-      async function checkweather(city) {
-        const response = await fetch(apiurl + city + `&appid=${apikey}`);
-        const data = await response.json();
-        console.log(data);
-        
-        document.querySelector(".city").innerHTML = data.name;
-        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + '°C';
-        document.querySelector(".humidity").innerHTML = data.main.humidity + '%';
-        document.querySelector(".wind").innerHTML = data.wind.speed + ' km/hr';
-
-        if (data.weather[0].main == 'Clouds') {
-          weathericon.src = "clouds.png";
-        } else if (data.weather[0].main == 'Clear') {
-          weathericon.src = "clear.png";
-        } else if (data.weather[0].main == 'Rain') {
-          weathericon.src = "rain.png";
-        } else if (data.weather[0].main == 'Drizzle') {
-          weathericon.src = "drizzle.png";
-        } else if (data.weather[0].main == 'Mist') {
-          weathericon.src = "mist.png";
-        }
-        document.querySelector(".wind").innerHTML = data.wind.speed + ' km/hr';
-      }
-
-      searchbtn.addEventListener("click", () => {
-        checkweather(searchbox.value);
-      });
-      searchbox.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          checkweather(searchbox.value);
-        }
-      });
-    });
-
-
-    function fetchUserLocation() {
-      
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            fetchWeatherByCoordinates(latitude, longitude);
-          },
-          (error) => {
-            console.error('Error getting user location:', error);
-          }
-        );
-      } else {
-        
-        console.error('Geolocation is not supported by this browser.');
-      }
-    }
-
-    // Fetch weather data using coordinates
-    async function fetchWeatherByCoordinates(latitude, longitude) {
-      const response = await fetch(`${apiurl}lat=${latitude}&lon=${longitude}&appid=${apikey}`);
-      const data = await response.json();
-      console.log(data);
-      document.querySelector(".city").innerHTML = data.message;
-      checkweather(data.name);
-    }
-
-    // Fetch weather for user's current location on page load
-    fetchUserLocation();
-
-
-
-  </script>
-
+  <script src="app.js"></script>
 </body>
 
 </html>
